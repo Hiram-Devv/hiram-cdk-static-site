@@ -1,20 +1,56 @@
 #!/usr/bin/env node
-import * as cdk from 'aws-cdk-lib';
-import { HiramCdkStaticSiteStack } from '../lib/hiram-cdk-static-site-stack';
+import "source-map-support/register";
+import * as cdk from "aws-cdk-lib";
+import { HiramCdkStaticSiteStack } from "../lib/hiram-cdk-static-site-stack";
 
 const app = new cdk.App();
-new HiramCdkStaticSiteStack(app, 'HiramCdkStaticSiteStack', {
-  /* If you don't specify 'env', this stack will be environment-agnostic.
-   * Account/Region-dependent features and context lookups will not work,
-   * but a single synthesized template can be deployed anywhere. */
 
-  /* Uncomment the next line to specialize this stack for the AWS Account
-   * and Region that are implied by the current CLI configuration. */
-  // env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+// us-east-1 es obligatorio para CloudFront + ACM
+const env = {
+  account: "973592936244",
+  region: "us-east-1",
+};
 
-  /* Uncomment the next line if you know exactly what Account and Region you
-   * want to deploy the stack to. */
-  // env: { account: '123456789012', region: 'us-east-1' },
+// =====================================================================
+// EJEMPLOS DE USO
+// =====================================================================
+// Descomenta el ejemplo que necesites, ajusta los valores y deploya con:
+//   cdk deploy NombreDelStack
+// =====================================================================
 
-  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
-});
+// --- Ejemplo 1: subdominio del dominio principal ---
+// new HiramCdkStaticSiteStack(app, 'PasteleriaStack', {
+//   env,
+//   description: 'Landing page de pastelería en subdominio',
+//   site: {
+//     domainName: 'pasteleria.hirambrizuela.dev',
+//     hostedZoneDomain: 'hirambrizuela.dev',
+//     buildPath: '../mi-pasteleria/dist',
+//     enableUrlRewrite: false,
+//     destroyOnRemoval: true,
+//   },
+// });
+
+// --- Ejemplo 2: dominio propio con www ---
+// new HiramCdkStaticSiteStack(app, 'MiBlogStack', {
+//   env,
+//   description: 'Blog técnico personal',
+//   site: {
+//     domainName: 'miblog.dev',
+//     siteSubDomain: 'www',
+//     buildPath: '../mi-blog/dist',
+//     enableUrlRewrite: true,
+//   },
+// });
+
+// --- Ejemplo 3: sitio con i18n (estilo portafolio) ---
+// new HiramCdkStaticSiteStack(app, 'PortfolioStack', {
+//   env,
+//   description: 'Portafolio personal con soporte i18n',
+//   site: {
+//     domainName: 'midominio.dev',
+//     siteSubDomain: 'www',
+//     buildPath: '../mi-portafolio/dist',
+//     enableUrlRewrite: true,
+//   },
+// });
